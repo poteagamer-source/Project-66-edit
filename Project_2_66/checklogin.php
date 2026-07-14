@@ -1,35 +1,52 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
+if (ob_get_level() === 0) {
+    ob_start();
+}
+if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 ?>
 <?php 
 
-    if (isset($_POST['log'])) {
+
+    if (isset($_POST['username'])) {
 
         include('connect.php');
 
         $username = $_POST['username'];
         $pass = $_POST['pass'];
+       
 
-        $query = "SELECT * FROM tb_register WHERE id_card = '$username'";
+        //$query = "SELECT * FROM tb_register WHERE username = '$username' AND pass = '$pass'";
+        $query = "SELECT * FROM tb_register WHERE username = '$username'";
         $result = mysqli_query($conn, $query);
-        
+
         if (mysqli_num_rows($result) == 1) {
+
             $row = mysqli_fetch_array($result);
+
+            $passwordhash = $row["pass"];
+            if(!password_verify($pass, $passwordhash)) {
+                echo "<script>alert('User หรือ Password ไม่ถูกต้อง);</script>";
+            }
             $_SESSION['userid'] = $row['ID_User'];
-            $_SESSION['username'] = $row['id_card'];
-            $_SESSION['birthdate'] = $row['birthdate'];
+            $_SESSION['username'] = $row['username'];
             $_SESSION['userrole'] = $row['userrole'];
-            $_SESSION['firstname'] = $row['firstname'];
-            $_SESSION['lastname'] = $row['lastname'];
-            echo "<script>alert('เข้าสู่ระบบ');</script>";
-            echo "<script>window.location.href='/index.php';</script>";
-            exit;
+
+            if ($_SESSION['userrole'] == 'admin') {
+                header("Location: index.php");
+            }
+
+            if ($_SESSION['userrole'] == 'member') {
+                header("Location: index.php");
+            }
         } else {
-            echo "<script>alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');</script>";
-            echo "<script>window.location.href='/login.php';</script>";
-            exit;
+            echo "<script>alert('User หรือ Password ไม่ถูกต้อง);</script>";
         }
+
+    } else {
+        header("Location: index.php");
     }
+
+
 ?>

@@ -1,5 +1,8 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
+if (ob_get_level() === 0) {
+    ob_start();
+}
+if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 ?>
@@ -10,51 +13,36 @@ if (session_status() === PHP_SESSION_NONE) {
 
     if (isset($_POST['reg'])) {
 
-        $firstname = $_POST['firstname'];
-        $lastname = $_POST['lastname'];
-        $birthdate = $_POST['birthdate'];
-        $id_card = $_POST['id_card'];
-        $email = $_POST['email'];
+        $username = $_POST['username'];
+        $pass = $_POST['pass'];
+       $confirmpass = $_POST['confirmpass'];
 
        
-        $dateTime = new DateTime($birthdate);
+        $passwordhash = password_hash($pass, PASSWORD_DEFAULT);
 
-        // Format the date as "03012004"
-        $formattedDate = $dateTime->format('dmY');
-
-           
-
-           
-
-           
-           
-
-
-
-        $user_check = "SELECT * FROM tb_register WHERE id_card = '$id_card' LIMIT 1";
+        $user_check = "SELECT * FROM tb_register WHERE username = '$username' LIMIT 1";
         $result = mysqli_query($conn, $user_check);
         $user = mysqli_fetch_assoc($result);
-        if($user){
-            echo "<script>alert('รหัสบัตรประชาชนนี้เคยใช้สมัครบัญชีแล้ว !!!');</script>";
-            header("refresh:1 url=/register.php");
-            
-        }else{
 
-            $query = "INSERT INTO tb_register (firstname, lastname, birthdate, id_card, email, userrole)
-                        VALUE ('$firstname', '$lastname','$formattedDate','$id_card','$email','member')";
+        if ($confirmpass !== $pass) {
+            echo "<script>alert('Passwords do not match');</script>";
+            header("refresh:1 url=register.php");
+            exit;
+        } else {
+          
+
+            $query = "INSERT INTO tb_register (username, pass, userrole)
+                        VALUE ('$username', '$passwordhash','member')";
             $result = mysqli_query($conn, $query);
 
             if ($result) {
-                echo "<script>alert('สมัครสมาชิกเสร็จสิ้น !!!');</script>";
-                header("refresh:1 url=/login.php");
+                echo "<script>alert('Register Successfully');</script>";
+                header("refresh:1 url=login.php");
             } else {
-                echo "<script>alert('มีบางอย่างผิดพลาดโปรดตรวจสอบอีกครั้ง !!!');</script>";
-                header("refresh:1 url=/register.php");
+                echo "<script>alert('Something went wrong !!');</script>";
+                header("refresh:1 url=register.php");
             }
         }
-      
-          
 
-        }
-    
+    }
 
