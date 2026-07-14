@@ -78,6 +78,8 @@
     </div>
   </div>
   <?php
+  error_reporting(E_ALL);
+  ini_set('display_errors', 1);
   include("connect.php");
   session_start();
   ?>
@@ -91,17 +93,17 @@
             <a class="nav-link active" aria-current="page" href="#">หน้าแรก</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/Project_2_66/about.php">รายละเอียด</a>
+            <a class="nav-link" href="about.php">รายละเอียด</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/Project_2_66/register-exam.php">ลงทะเบียนสมัคร</a>
+            <a class="nav-link" href="register-exam.php">ลงทะเบียนสมัคร</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/Project_2_66/info-register.php">ตรวจสอบผล</a>
+            <a class="nav-link" href="info-register.php">ตรวจสอบผล</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/Project_2_66/info-register.php">ช่องทางการติดต่อ</a>
+            <a class="nav-link" href="info-register.php">ช่องทางการติดต่อ</a>
           </li>
           <?php
           if (isset($_SESSION['userrole'])) {
@@ -143,7 +145,7 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                        
-                          <a class="dropdown-item" href="http://localhost/Project_2_66/logout.php" data-toggle="modal" data-target="#logoutModal">
+                          <a class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#logoutModal">
                               <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout
                           </a>
                       </div>
@@ -151,7 +153,7 @@
             }
           } else {
             echo '<li class="nav-item">
-                            <a class="nav-link" href="http://localhost/Project_2_66/login.php">เข้าสู่ระบบ</a>
+                            <a class="nav-link" href="login.php">เข้าสู่ระบบ</a>
                         </li>';
           }
           ?>
@@ -558,8 +560,18 @@
 <div class="news_section layout_padding">
   <?php
   $sql = "SELECT * FROM tb_an";
-  $result = mysqli_query($conn, $sql);
-  $row = $result->fetch_assoc();
+  $result = @mysqli_query($conn, $sql);
+  
+  if ($result && mysqli_num_rows($result) > 0) {
+      $row = $result->fetch_assoc();
+  } else {
+      $row = array(
+          'an_regis' => 'ยังไม่ประกาศ',
+          'an_test' => 'ยังไม่ประกาศ',
+          'an_test_result' => 'ยังไม่ประกาศ'
+      );
+  }
+
   if ($row['an_regis'] == 'ยังไม่ประกาศ') {
     echo "<h1>ยังไม่ประกาศ</h1>";
   } else {
