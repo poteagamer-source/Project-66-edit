@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,7 +75,6 @@
 
     </style>
     <?php
-        session_start();
     include('connect.php'); 
     if (isset($_SESSION['userrole'])) {
         if($_SESSION['userrole'] == 'admin'){
@@ -83,7 +87,7 @@
     }
     else{
         echo "<script>alert('คุณไม่มีสิทธิ์เข้าถึง');</script>";
-        echo "<script>window.location.href='http://localhost/Project_2_66/login.php';</script>";
+        echo "<script>window.location.href='/login.php';</script>";
     }
     }
    
@@ -297,7 +301,7 @@ echo " <h6>". $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] ."</h6>";
                                 $sql = "UPDATE tb_an SET an_regis = '$an'
                                 WHERE an_regis = 'ยังไม่ประกาศ'";
                                 $conn->query($sql);
-                                echo "<script>window.location.href='http://localhost/Project_2_66/manage-website.php';</script>";
+                                echo "<script>window.location.href='/manage-website.php';</script>";
                             }
                         } else {
                             echo "ประกาศแล้ว";
@@ -317,7 +321,7 @@ echo " <h6>". $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] ."</h6>";
                                 $cancel = $_GET['cancel_option'];
                                 $sql = "UPDATE tb_an SET an_regis = '$cancel'";
                                 $conn->query($sql);
-                                echo "<script>window.location.href='http://localhost/Project_2_66/manage-website.php';</script>";
+                                echo "<script>window.location.href='/manage-website.php';</script>";
                             }
                         }
                         ?>
@@ -363,7 +367,7 @@ echo " <h6>". $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] ."</h6>";
                                 $an = $_GET['an_option'];
                                 $sql = "UPDATE tb_an SET an_test = '$an'";
                                 $conn->query($sql);
-                                echo "<script>window.location.href='http://localhost/Project_2_66/manage-website.php';</script>";
+                                echo "<script>window.location.href='/manage-website.php';</script>";
                             }
                         } else {
                             echo "ประกาศแล้ว";
@@ -383,7 +387,7 @@ echo " <h6>". $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] ."</h6>";
                                 $cancel = $_GET['cancel_option'];
                                 $sql = "UPDATE tb_an SET an_test = '$cancel'";
                                 $conn->query($sql);
-                                echo "<script>window.location.href='http://localhost/Project_2_66/manage-website.php';</script>";
+                                echo "<script>window.location.href='/manage-website.php';</script>";
                             }
                         }
                         ?>
@@ -428,7 +432,7 @@ echo " <h6>". $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] ."</h6>";
                                 $sql = "UPDATE tb_an SET an_test_result = '$an'";
                                 $conn->query($sql);
                                
-                                echo "<script>window.location.href='http://localhost/Project_2_66/manage-website.php';</script>";
+                                echo "<script>window.location.href='/manage-website.php';</script>";
                             }
                     } else {
                         echo "ประกาศแล้ว";
@@ -448,7 +452,7 @@ echo " <h6>". $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] ."</h6>";
                                 $cancel = $_GET['cancel_option'];
                                 $sql = "UPDATE tb_an SET an_test_result = '$cancel'";
                                 $conn->query($sql);
-                                echo "<script>window.location.href='http://localhost/Project_2_66/manage-website.php';</script>";
+                                echo "<script>window.location.href='/manage-website.php';</script>";
                                
                       
 

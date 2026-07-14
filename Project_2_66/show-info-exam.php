@@ -1,5 +1,9 @@
-<!--<?php
+<?php
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+?>
+<!--<?php
     require_once "connect.php";
 
    $sql = " SELECT * FROM tb_student ";

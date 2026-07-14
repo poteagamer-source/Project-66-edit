@@ -1,6 +1,10 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <?php 
 
-    session_start();
 
     require_once "connect.php";
 
@@ -32,7 +36,7 @@
         $user = mysqli_fetch_assoc($result);
         if($user){
             echo "<script>alert('รหัสบัตรประชาชนนี้เคยใช้สมัครบัญชีแล้ว !!!');</script>";
-            header("refresh:1 url=http://localhost/Project_2_66/register.php");
+            header("refresh:1 url=/register.php");
             
         }else{
 
@@ -42,10 +46,10 @@
 
             if ($result) {
                 echo "<script>alert('สมัครสมาชิกเสร็จสิ้น !!!');</script>";
-                header("refresh:1 url=http://localhost/Project_2_66/login.php");
+                header("refresh:1 url=/login.php");
             } else {
                 echo "<script>alert('มีบางอย่างผิดพลาดโปรดตรวจสอบอีกครั้ง !!!');</script>";
-                header("refresh:1 url=http://localhost/Project_2_66/register.php");
+                header("refresh:1 url=/register.php");
             }
         }
       

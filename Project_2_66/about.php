@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,7 +77,6 @@
         </div>
     </div>
     <?php
-        session_start();
     ?>
     
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -80,20 +84,20 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="http://localhost/Project_2_66/index.php">หน้าแรก</a>
+                    <a class="nav-link " aria-current="page" href="/index.php">หน้าแรก</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="http://localhost/Project_2_66/about.php">รายละเอียด</a>
+                    <a class="nav-link active" href="/about.php">รายละเอียด</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/Project_2_66/register-exam.php">ลงทะเบียนสมัคร</a>
+                    <a class="nav-link" href="/register-exam.php">ลงทะเบียนสมัคร</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/Project_2_66/info-register.php">ตรวจสอบผล</a>
+                    <a class="nav-link" href="/info-register.php">ตรวจสอบผล</a>
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/Project_2_66/contact.php">ช่องทางการติดต่อ</a>
+                    <a class="nav-link" href="/contact.php">ช่องทางการติดต่อ</a>
                 </li>
                 <?php
                 if (isset($_SESSION['userrole'])) {
@@ -135,7 +139,7 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                        
-                          <a class="dropdown-item" href="http://localhost/Project_2_66/logout.php" data-toggle="modal" data-target="#logoutModal">
+                          <a class="dropdown-item" href="/logout.php" data-toggle="modal" data-target="#logoutModal">
                               <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout
                           </a>
                       </div>
@@ -143,7 +147,7 @@
                     }
                 } else {
                     echo '<li class="nav-item">
-                            <a class="nav-link" href="http://localhost/Project_2_66/login.php">เข้าสู่ระบบ</a>
+                            <a class="nav-link" href="/login.php">เข้าสู่ระบบ</a>
                         </li>';
                 }
                 ?>

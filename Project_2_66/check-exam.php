@@ -1,5 +1,9 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+?>
+<?php
     require_once "connect.php";
     $pre_name = $_POST['pre_name'];
     $first_name= $_POST['first_name'];
@@ -48,11 +52,11 @@
             $result = mysqli_query($conn, $query);
             if ($result) {
                 echo "<script>alert('กรอกข้อมูลเสร็จสิ้น');</script>";
-                header("refresh:1 url=http://localhost/Project_2_66/info-register.php");
+                header("refresh:1 url=/info-register.php");
                 session_unset();
             } else {
                 echo "<script>alert('Something went wrong !!');</script>";
-                header("refresh:1 url=http://localhost/Project_2_66/register-exam.php");
+                header("refresh:1 url=/register-exam.php");
                 session_unset();
             }
         

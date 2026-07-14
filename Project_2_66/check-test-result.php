@@ -1,6 +1,10 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+<?php
 include("connect.php");
-session_start();
 
 // ตรวจสอบว่ามีการส่งค่า 'test_normal' มาจากฟอร์มหรือไม่
 if(isset($_POST['test_normal'])){
@@ -21,7 +25,7 @@ if(isset($_POST['test_normal'])){
     // ปิดคำสั่ง SQL
     $stmt->close();
     // ใช้ header() เพื่อ redirect ไปยังหน้าที่แสดงผลการทดสอบ
-    header("Location: http://localhost/Project_2_66/show-test-result.php");
+    header("Location: /show-test-result.php");
     exit(); // ออกจากการทำงานของ script ทันทีหลังจาก redirect
 }
 
@@ -44,7 +48,7 @@ if(isset($_POST['test_expert'])){
     // ปิดคำสั่ง SQL
     $stmt->close();
     // ใช้ header() เพื่อ redirect ไปยังหน้าที่แสดงผลการทดสอบ
-    header("Location: http://localhost/Project_2_66/show-test-result.php");
+    header("Location: /show-test-result.php");
     exit(); // ออกจากการทำงานของ script ทันทีหลังจาก redirect
 }
 ?>

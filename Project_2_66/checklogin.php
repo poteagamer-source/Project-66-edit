@@ -1,5 +1,9 @@
-<?php 
+<?php
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+?>
+<?php 
 
     if (isset($_POST['log'])) {
 
@@ -20,11 +24,11 @@
             $_SESSION['firstname'] = $row['firstname'];
             $_SESSION['lastname'] = $row['lastname'];
             echo "<script>alert('เข้าสู่ระบบ');</script>";
-            echo "<script>window.location.href='http://localhost/Project_2_66/index.php';</script>";
+            echo "<script>window.location.href='/index.php';</script>";
             exit;
         } else {
             echo "<script>alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');</script>";
-            echo "<script>window.location.href='http://localhost/Project_2_66/login.php';</script>";
+            echo "<script>window.location.href='/login.php';</script>";
             exit;
         }
     }

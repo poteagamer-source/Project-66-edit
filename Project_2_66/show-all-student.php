@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,7 +92,6 @@
 
     </style>
   <?php
-        session_start();
         include('connect.php');                               
      ?>
 </head>

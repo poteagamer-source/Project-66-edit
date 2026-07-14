@@ -1,5 +1,9 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+<?php
 require_once "connect.php";
 
 // เริ่มต้น id_card ที่ 1

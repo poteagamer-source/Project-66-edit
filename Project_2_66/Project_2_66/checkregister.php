@@ -1,6 +1,10 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <?php 
 
-    session_start();
 
     require_once "connect.php";
 
@@ -19,7 +23,7 @@
 
         if ($confirmpass !== $pass) {
             echo "<script>alert('Passwords do not match');</script>";
-            header("refresh:1 url=http://localhost/Project_2_66/register.php");
+            header("refresh:1 url=/register.php");
             exit;
         } else {
           
@@ -30,10 +34,10 @@
 
             if ($result) {
                 echo "<script>alert('Register Successfully');</script>";
-                header("refresh:1 url=http://localhost/Project_2_66/login.php");
+                header("refresh:1 url=/login.php");
             } else {
                 echo "<script>alert('Something went wrong !!');</script>";
-                header("refresh:1 url=http://localhost/Project_2_66/register.php");
+                header("refresh:1 url=/register.php");
             }
         }
 

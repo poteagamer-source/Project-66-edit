@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,13 +31,12 @@
         </div>
     </div>
     <?php
-        session_start();
     ?>
     <?php
 
       if(!isset($_SESSION['userrole'])){
         echo "<script>alert('You are not login yet.');</script>";
-        header("refresh:0 url=http://localhost/Project_2_66/login.php");
+        header("refresh:0 url=/login.php");
       }
       ?>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">

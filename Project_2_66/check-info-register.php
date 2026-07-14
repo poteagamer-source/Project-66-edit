@@ -1,5 +1,9 @@
-<?php 
+<?php
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+?>
+<?php 
     include("connect.php");
 ?>
 
@@ -17,7 +21,7 @@
         $_SESSION['department_check'] = $row['department'];
         $_SESSION['status_value'] = $row['status_value'];
         
-        header("refresh:1 url=http://localhost/Project_2_66/info-register.php");
+        header("refresh:1 url=/info-register.php");
         exit();
     }
     else{

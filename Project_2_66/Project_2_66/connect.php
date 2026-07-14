@@ -1,16 +1,20 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "65309010016";
-$dbname = "db_exam";
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$servername = getenv('DB_HOST') ?: 'tokaido.proxy.rlwy.net';
+$username   = getenv('DB_USER') ?: 'root';
+$password   = getenv('DB_PASSWORD') ?: '';
+$dbname     = getenv('DB_NAME') ?: 'railway';
+$port       = (int) (getenv('DB_PORT') ?: 42708);
 
-// Check connection
-if ($conn->connect_error) {
-die("Connection failed: " . $conn->connect_error);
+if ($password === '') {
+    die('Database configuration error: DB_PASSWORD is not set in Render Environment Variables.');
 }
-//echo "Connected successfully";
-//header("refresh:1 url=http://localhost/Project_2_66/login.php");
-?>
+
+try {
+    $conn = new mysqli($servername, $username, $password, $dbname, $port);
+    $conn->set_charset('utf8mb4');
+} catch (mysqli_sql_exception $e) {
+    error_log('Database connection failed: ' . $e->getMessage());
+    die('ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาตรวจสอบ Environment Variables บน Render');
+}

@@ -1,11 +1,8 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
-session_start();
-require_once __DIR__ . '/connect.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -85,6 +82,11 @@ require_once __DIR__ . '/connect.php';
       </div>
     </div>
   </div>
+  <?php
+  include("connect.php");
+  ?>
+
+
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -93,17 +95,17 @@ require_once __DIR__ . '/connect.php';
             <a class="nav-link active" aria-current="page" href="#">หน้าแรก</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about.php">รายละเอียด</a>
+            <a class="nav-link" href="/about.php">รายละเอียด</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="register-exam.php">ลงทะเบียนสมัคร</a>
+            <a class="nav-link" href="/register-exam.php">ลงทะเบียนสมัคร</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="info-register.php">ตรวจสอบผล</a>
+            <a class="nav-link" href="/info-register.php">ตรวจสอบผล</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="info-register.php">ช่องทางการติดต่อ</a>
+            <a class="nav-link" href="/info-register.php">ช่องทางการติดต่อ</a>
           </li>
           <?php
           if (isset($_SESSION['userrole'])) {
@@ -145,7 +147,7 @@ require_once __DIR__ . '/connect.php';
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                        
-                          <a class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#logoutModal">
+                          <a class="dropdown-item" href="/logout.php" data-toggle="modal" data-target="#logoutModal">
                               <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout
                           </a>
                       </div>
@@ -153,7 +155,7 @@ require_once __DIR__ . '/connect.php';
             }
           } else {
             echo '<li class="nav-item">
-                            <a class="nav-link" href="login.php">เข้าสู่ระบบ</a>
+                            <a class="nav-link" href="/login.php">เข้าสู่ระบบ</a>
                         </li>';
           }
           ?>
@@ -560,18 +562,8 @@ require_once __DIR__ . '/connect.php';
 <div class="news_section layout_padding">
   <?php
   $sql = "SELECT * FROM tb_an";
-  $result = @mysqli_query($conn, $sql);
-  
-  if ($result && mysqli_num_rows($result) > 0) {
-      $row = $result->fetch_assoc();
-  } else {
-      $row = array(
-          'an_regis' => 'ยังไม่ประกาศ',
-          'an_test' => 'ยังไม่ประกาศ',
-          'an_test_result' => 'ยังไม่ประกาศ'
-      );
-  }
-
+  $result = mysqli_query($conn, $sql);
+  $row = $result->fetch_assoc();
   if ($row['an_regis'] == 'ยังไม่ประกาศ') {
     echo "<h1>ยังไม่ประกาศ</h1>";
   } else {

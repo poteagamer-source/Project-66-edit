@@ -12,11 +12,11 @@
     $result = mysqli_query($conn, $sql);
     if ($result) {
         echo "<script>alert('กรอกข้อมูลเสร็จสิ้น');</script>";
-        header("refresh:1 url=http://localhost/Project_2_66/staff.php");
+        header("refresh:1 url=/staff.php");
         session_unset();
     } else {
         echo "<script>alert('Something went wrong !!');</script>";
-        header("refresh:1 url=http://localhost/Project_2_66/staff-user.php");
+        header("refresh:1 url=/staff-user.php");
         session_unset();
     }
 ?>

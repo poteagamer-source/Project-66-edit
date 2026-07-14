@@ -1,6 +1,10 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!-- SELECT -->
 <?php
-    session_start();
     include("connect.php");
     
    
@@ -62,7 +66,7 @@
            
             echo "<script>alert('แก้ไขเสร็จสิ้น')</script>";
             
-            header("refresh:3 url=http://localhost/Project_2_66/manage-user.php");
+            header("refresh:3 url=/manage-user.php");
         }
         ?>
 
@@ -117,7 +121,7 @@
 
      $conn->query($sql2);
      $conn->close();
-     header("refresh:1 url=http://localhost/Project_2_66/manage-user.php");
+     header("refresh:1 url=/manage-user.php");
      ?>
      
    

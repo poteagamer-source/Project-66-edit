@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,7 +73,6 @@
 
 <body id="page-top">
     <?php
-        session_start();
     include('connect.php'); 
     if (isset($_SESSION['userrole'])) {
         if($_SESSION['userrole'] == 'admin'){
@@ -81,7 +85,7 @@
     }
     else{
         echo "<script>alert('คุณไม่มีสิทธิ์เข้าถึง');</script>";
-        echo "<script>window.location.href='http://localhost/Project_2_66/login.php';</script>";
+        echo "<script>window.location.href='/login.php';</script>";
     }
     }
    
