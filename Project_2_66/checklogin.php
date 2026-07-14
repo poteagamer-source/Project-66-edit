@@ -1,52 +1,39 @@
 <?php
-if (ob_get_level() === 0) {
-    ob_start();
-}
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
-?>
-<?php 
+require_once __DIR__ . '/connect.php';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: login.php');
+    exit;
+}
 
-    if (isset($_POST['username'])) {
+$email  = trim($_POST['email'] ?? '');
+$idCard = trim($_POST['id_card'] ?? '');
 
-        include('connect.php');
+if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match('/^\d{13}$/', $idCard)) {
+    header('Location: login.php?error=invalid_credentials');
+    exit;
+}
 
-        $username = $_POST['username'];
-        $pass = $_POST['pass'];
-       
+$stmt = $conn->prepare('SELECT ID_User, firstname, lastname, email, userrole FROM tb_register WHERE email = ? AND id_card = ? LIMIT 1');
+$stmt->bind_param('ss', $email, $idCard);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
+$stmt->close();
 
-        //$query = "SELECT * FROM tb_register WHERE username = '$username' AND pass = '$pass'";
-        $query = "SELECT * FROM tb_register WHERE username = '$username'";
-        $result = mysqli_query($conn, $query);
+if (!$user) {
+    header('Location: login.php?error=invalid_credentials');
+    exit;
+}
 
-        if (mysqli_num_rows($result) == 1) {
+session_regenerate_id(true);
+$_SESSION['userid']    = $user['ID_User'];
+$_SESSION['username']  = $user['email'];
+$_SESSION['firstname'] = $user['firstname'];
+$_SESSION['lastname']  = $user['lastname'];
+$_SESSION['userrole']  = $user['userrole'] ?: 'member';
 
-            $row = mysqli_fetch_array($result);
-
-            $passwordhash = $row["pass"];
-            if(!password_verify($pass, $passwordhash)) {
-                echo "<script>alert('User หรือ Password ไม่ถูกต้อง);</script>";
-            }
-            $_SESSION['userid'] = $row['ID_User'];
-            $_SESSION['username'] = $row['username'];
-            $_SESSION['userrole'] = $row['userrole'];
-
-            if ($_SESSION['userrole'] == 'admin') {
-                header("Location: index.php");
-            }
-
-            if ($_SESSION['userrole'] == 'member') {
-                header("Location: index.php");
-            }
-        } else {
-            echo "<script>alert('User หรือ Password ไม่ถูกต้อง);</script>";
-        }
-
-    } else {
-        header("Location: index.php");
-    }
-
-
-?>
+header('Location: index.php');
+exit;

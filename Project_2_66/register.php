@@ -24,23 +24,23 @@
            
                 <div class="row">
                     <i class="fas fa-user"></i>
-                    <input type="text" id="firstname" name="firstname" placeholder="ชื่อ" >
+                    <input type="text" id="firstname" name="firstname" placeholder="ชื่อ"  required>
                 </div>
                 <div class="row">
                     <i class="fas fa-lock"></i>
-                    <input type="text" id="lastname" name="lastname" placeholder="นามสกุล" >
+                    <input type="text" id="lastname" name="lastname" placeholder="นามสกุล"  required>
                 </div>
                 <div class="row">
                     <i class="fa-solid fa-calendar-days"></i>
-                    <input type="date" id="birthdate" name="birthdate" placeholder="วันเดือนปีเกิด" >
+                    <input type="date" id="birthdate" name="birthdate" placeholder="วันเดือนปีเกิด"  required>
                 </div>
                 <div class="row">
                     <i class="fas fa-lock"></i>
-                    <input type="text" id="id_card" name="id_card" placeholder="รหัสประจำตัวประชาชน 13 หลัก" >
+                    <input type="text" id="id_card" name="id_card" placeholder="รหัสประจำตัวประชาชน 13 หลัก"  required>
                 </div>
                 <div class="row">
                     <i class="fas fa-lock"></i>
-                    <input type="text" id="email" name="email" placeholder="E-mail" >
+                    <input type="email" id="email" name="email" placeholder="E-mail"  required>
                 </div>
                 
                 <span id="passwordError" class="error"></span>

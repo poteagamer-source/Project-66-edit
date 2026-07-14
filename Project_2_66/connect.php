@@ -13,14 +13,7 @@ if (!$servername || !$username || !$password || !$dbname) {
 }
 
 try {
-    $conn = new mysqli(
-        $servername,
-        $username,
-        $password,
-        $dbname,
-        $port
-    );
-
+    $conn = new mysqli($servername, $username, $password, $dbname, $port);
     $conn->set_charset('utf8mb4');
 } catch (mysqli_sql_exception $e) {
     error_log('Database connection failed: ' . $e->getMessage());

@@ -1,48 +1,54 @@
 <?php
-if (ob_get_level() === 0) {
-    ob_start();
-}
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
-?>
-<?php 
+require_once __DIR__ . '/connect.php';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['reg'])) {
+    header('Location: register.php');
+    exit;
+}
 
-    require_once "connect.php";
+$firstname = trim($_POST['firstname'] ?? '');
+$lastname  = trim($_POST['lastname'] ?? '');
+$birthdate = trim($_POST['birthdate'] ?? '');
+$idCard    = trim($_POST['id_card'] ?? '');
+$email     = trim($_POST['email'] ?? '');
 
-    if (isset($_POST['reg'])) {
+if ($firstname === '' || $lastname === '' || $birthdate === '' || $idCard === '' || $email === '') {
+    header('Location: register.php?error=missing_fields');
+    exit;
+}
+if (!preg_match('/^\d{13}$/', $idCard)) {
+    header('Location: register.php?error=invalid_id_card');
+    exit;
+}
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header('Location: register.php?error=invalid_email');
+    exit;
+}
 
-        $username = $_POST['username'];
-        $pass = $_POST['pass'];
-       $confirmpass = $_POST['confirmpass'];
-
-       
-        $passwordhash = password_hash($pass, PASSWORD_DEFAULT);
-
-        $user_check = "SELECT * FROM tb_register WHERE username = '$username' LIMIT 1";
-        $result = mysqli_query($conn, $user_check);
-        $user = mysqli_fetch_assoc($result);
-
-        if ($confirmpass !== $pass) {
-            echo "<script>alert('Passwords do not match');</script>";
-            header("refresh:1 url=register.php");
-            exit;
-        } else {
-          
-
-            $query = "INSERT INTO tb_register (username, pass, userrole)
-                        VALUE ('$username', '$passwordhash','member')";
-            $result = mysqli_query($conn, $query);
-
-            if ($result) {
-                echo "<script>alert('Register Successfully');</script>";
-                header("refresh:1 url=login.php");
-            } else {
-                echo "<script>alert('Something went wrong !!');</script>";
-                header("refresh:1 url=register.php");
-            }
-        }
-
+try {
+    $check = $conn->prepare('SELECT ID_User FROM tb_register WHERE email = ? OR id_card = ? LIMIT 1');
+    $check->bind_param('ss', $email, $idCard);
+    $check->execute();
+    if ($check->get_result()->fetch_assoc()) {
+        $check->close();
+        header('Location: register.php?error=already_exists');
+        exit;
     }
+    $check->close();
 
+    $role = 'member';
+    $stmt = $conn->prepare('INSERT INTO tb_register (firstname, lastname, birthdate, id_card, email, userrole) VALUES (?, ?, ?, ?, ?, ?)');
+    $stmt->bind_param('ssssss', $firstname, $lastname, $birthdate, $idCard, $email, $role);
+    $stmt->execute();
+    $stmt->close();
+
+    header('Location: login.php?registered=1');
+    exit;
+} catch (mysqli_sql_exception $e) {
+    error_log('Registration failed: ' . $e->getMessage());
+    header('Location: register.php?error=database');
+    exit;
+}

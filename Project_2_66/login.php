@@ -35,11 +35,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         
           <div class="row">
             <i class="fas fa-user"></i>
-            <input type="text" name="username" placeholder="" required>
+            <input type="email" name="email" placeholder="E-mail" required>
           </div>
           <div class="row">
             <i class="fas fa-lock"></i>
-            <input type="password" name="pass"placeholder="Password" required>
+            <input type="password" name="id_card" placeholder="เลขบัตรประชาชน 13 หลัก" minlength="13" maxlength="13" required>
           </div>
           <div class="pass"><a href="#">Forgot password?</a></div>
           <div class="row button">
