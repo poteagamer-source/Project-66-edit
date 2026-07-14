@@ -1,3 +1,11 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+session_start();
+require_once __DIR__ . '/connect.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,14 +85,6 @@
       </div>
     </div>
   </div>
-  <?php
-  error_reporting(E_ALL);
-  ini_set('display_errors', 1);
-  include("connect.php");
-  session_start();
-  ?>
-
-
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <div class="collapse navbar-collapse" id="navbarNav">
